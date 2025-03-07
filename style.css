@@ -1,0 +1,24 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.incorrect_answer{
+    background-color: red;
+}
+.correct_answer{
+background-color: green;
+}
+#wrapper{
+    background-color: rgba(181, 104, 104, 0.692);
+    display: flex ;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    
+}
+#start{
+    height: 10vh;
+    width: 35vh;
+    font-size: xx-large;
+}
