@@ -37,7 +37,7 @@ const name = document.querySelector("input");
 let userAnswers = [];
 let questionNumber = 0;
 let countdown = 5;
-const players = localStorage.getItem("players") !== NULL ? JSON.parse(localStorage.getItem("players")) : [];
+const players = localStorage.getItem("players") !== null ? JSON.parse(localStorage.getItem("players")) : [];
 const randomizedQuestions = randomize(processQuestions(questions));
 console.log(randomizedQuestions);
 
@@ -47,7 +47,7 @@ function startTheQuiz() {
     storeDataInLS();
 
     startBtn.style.display = "none";//hiding btn after click
-
+    name.style.display = "none";
     nextQuestion(questionNumber);//showing 1st que
     timerPara.innerText = countdown;
 
@@ -68,8 +68,10 @@ function startTheQuiz() {
         }
     }, 1000);
 }
-
+let score = 0;
 function storeDataInLS() {
+
+
     const player = {
         name: name.value,
         date: new Date().toLocaleString(),
@@ -84,9 +86,9 @@ function nextQuestion(questionNumber) {
     questionPara.innerText = randomizedQuestions[questionNumber].question
     for (let i = 0; i < optionPara.length; i++) {
         optionPara[i].innerText = randomizedQuestions[questionNumber].incorrect_answers[i];
-        resetOption(option);//remove green or blue color
+        resetOption(optionPara[i]);//remove green or blue color
 
-        option.addEventListener("click", storeUserAnswer);
+        optionPara[i].addEventListener("click", storeUserAnswer);
     }
 
 }
@@ -99,7 +101,7 @@ function resetOption(option) {
     }
 }
 function storeUserAnswer(e) {
-    console.log(e.target.innerText);
+    // console.log(e.target.innerText);
     userAnswers.push({
         questionNumber: questionNumber, userAnswer: e.target.innerText
     });
@@ -119,12 +121,19 @@ function displayScore() {
     scoreDiv.classList.add("scoreDiv");
 
     const h2 = document.createElement("h2");
-    h2.innerText = "your score is" + score;
+    h2.innerText = "Your score is " + score;
 
     scoreDiv.append(h2);
     document.querySelector("#quizSection").append(scoreDiv);
-}
 
+    writeScoreInLs(score);
+}
+function writeScoreInLs(score) {
+    const playerArray = JSON.parse(localStorage.getItem("players"));
+    console.log(playerArray);
+    playerArray[playerArray.length - 1].score = score;
+    localStorage.setItem("players", JSON.stringify(playerArray));
+}
 
 
 
